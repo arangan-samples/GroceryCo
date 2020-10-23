@@ -1,0 +1,4 @@
+2141|Apple|3
+2101|Orange|2
+3291|Pineapple|4XYZ
+4011|Banana|1

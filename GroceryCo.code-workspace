@@ -1,0 +1,83 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+        "editor.fontFamily": "'FuraCode Nerd Font', 'FuraCode NF', Consolas, monospace",
+		"editor.matchBrackets": "never",
+		"editor.lineNumbers": "on",
+		"editor.autoClosingBrackets": "beforeWhitespace",
+		"editor.minimap.enabled": false,
+		"files.encoding": "utf8",
+		"workbench.iconTheme": "vscode-icons",
+        "window.zoomLevel": 1.25,
+		"bracket-pair-colorizer-2.highlightActiveScope": true,
+		//"bracket-pair-colorizer-2.activeScopeCSS": [
+		//	"borderStyle : solid",
+		//	"borderWidth : 2px",
+		//	"borderColor : {color}",
+		//	"opacity: 0.5"
+		]//,
+		"telemetry.enableTelemetry": false,
+		"workbench.sideBar.location": "right",
+		"files.exclude": {
+			".gitignore": true,
+			"*.code-workspace": true,
+			"*.sln": true,
+			"**/.vscode": true,
+			"**/bin": true,
+			"**/obj": true,
+		},
+		"vssolution.netcoreIgnore": [
+			".vscode",
+			"bin",
+			"*.sln",
+			"obj",
+			".ds_store"
+		] ,
+		"vim.debug.silent": false,
+		"vim.debug.loggingLevelForConsole":"debug",
+		"vim.disableExtension":false,
+		"vim.leader": "<space>",
+        "vim.camelCaseMotion.enable": true,
+        "vim.useCtrlKeys": false,
+        "vim.handleKeys": {
+			"<C-v>": true,
+			"<C-l>": true,
+			"<C-r>": true,
+			"<C-k>": true,
+          },
+		"vim.foldfix":true,
+		"vim.normalModeKeyBindingsNonRecursive": [
+			/*{
+				"before": ["leader", "j"], "commands": ["workbench.action.togglePanel"]
+			},
+			{
+				"before": ["leader", "b"], "commands": ["workbench.action.toggleSidebarVisibility"]
+			},*/
+            {
+                "before": [ "leader", "p" ],
+                "after": [ "\"", "+", "p" ]
+            },
+            {
+                "before": [ "leader", "P" ],
+                "after": [ "\"", "+", "P" ]
+            },
+            {
+                "before": [ "leader", "y" ],
+                "commands": [ "editor.action.clipboardCopyAction" ]
+            },
+			{
+				"before": ["leader", "r"], "after":[], "commands": [":reg"]
+			},
+		],
+        "vim.visualModeKeyBindingsNonRecursive": [
+            {
+                "before": [ "leader", "y" ],
+                "commands": [ "editor.action.clipboardCopyAction" ]
+            }
+        ],		
+	}
+}
