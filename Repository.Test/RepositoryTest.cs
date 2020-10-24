@@ -141,7 +141,24 @@ namespace Repository.Test
         #endregion **********
 
         #region ***** Promotions *****
-        
+        [Fact]
+        public void Can_Get_ALL_Promotions()
+        {
+            Dictionary<int,IPromotion> promotions = _repository.GetPromotions();            
+            Assert.Equal(2, promotions.Count);
+
+            Assert.Equal("Discount", promotions[2101].PromotionCode);
+            Assert.Equal(2101, promotions[2101].PLU);
+            Assert.Equal(3, promotions[2101].QuantityBought);
+            Assert.Equal(1, promotions[2101].QuantityOffered);
+            Assert.Equal(100m, promotions[2101].PromotionalPricing, 2);
+
+            Assert.Equal("ReducedPrice", promotions[3291].PromotionCode);
+            Assert.Equal(3291, promotions[3291].PLU);
+            Assert.Equal(4, promotions[3291].QuantityBought);
+            Assert.Equal(0, promotions[3291].QuantityOffered);
+            Assert.Equal(3.50m, promotions[3291].PromotionalPricing, 2);            
+        }
         #endregion **********
     }
 }

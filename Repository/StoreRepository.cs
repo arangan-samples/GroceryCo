@@ -42,7 +42,7 @@ namespace Repository
                     throw new System.Exception("Error: Invalid Master Product List Format");
                 }
                 int plu = Convert.ToInt32(productRecord[0]);
-                string name = productRecord[1];
+                string name = productRecord[1].Trim();
                 decimal price = Convert.ToDecimal(productRecord[2]);
                 products.Add(plu, new Product(plu,name,price));
             }
@@ -51,7 +51,25 @@ namespace Repository
 
         public Dictionary<int, IPromotion> GetPromotions()
         {
-            throw new NotImplementedException();
+            string[] promotionRecords = File.ReadAllLines(PromotionsList);
+            Dictionary<int, IPromotion> promotions = new Dictionary<int, IPromotion>(promotionRecords.Length);
+            foreach (string promo in promotionRecords)
+            {
+                string[] record = promo.Split('|',StringSplitOptions.RemoveEmptyEntries);
+                if (record.Length != 5)
+                {
+                    throw new System.Exception("Error: Invalid promotion list format");
+                }
+                string name = record[0].Trim();
+                int plu = Convert.ToInt32(record[1]);
+                int quantityBought = Convert.ToInt32(record[2]);                
+                int quantityOffered = Convert.ToInt32(record[3]);            
+                decimal promotionalPricing = Convert.ToDecimal(record[4]);
+
+                promotions.Add(plu, new Promotion(name, plu, quantityBought, quantityOffered, promotionalPricing));
+            }
+
+            return promotions;
         }
 
         public StoreRepository()

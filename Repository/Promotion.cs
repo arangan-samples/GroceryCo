@@ -13,13 +13,13 @@ namespace Repository
 
         public int QuantityOffered { get; }
 
-        public int PromotionalPricing { get; }
+        public decimal PromotionalPricing { get; }
 
         public Promotion(string promotionCode,
                          int plu,
                          int quantityBought,
                          int quantityOffered,
-                         int promotionalPricing)
+                         decimal promotionalPricing)
         {
             if (string.IsNullOrWhiteSpace(promotionCode))
             {

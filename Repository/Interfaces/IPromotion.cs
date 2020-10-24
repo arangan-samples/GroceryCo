@@ -9,6 +9,6 @@ namespace Repository.Interfaces
 
         int QuantityOffered {get;}
 
-        int PromotionalPricing {get;}
+        decimal PromotionalPricing {get;}
     }
 }
