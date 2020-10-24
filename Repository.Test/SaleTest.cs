@@ -1,71 +1,16 @@
-using System;
-using Xunit;
-using Repository;
-using System.Linq;
-using System.Collections.Generic;
 using Repository.Interfaces;
+using Xunit;
 
-namespace RepositoryTest
+namespace Repository.Test
 {
     public class SaleTest
     {
-        StoreRepository _repository;
-
-        public SaleTest()
-        {
-            _repository = new StoreRepository();
-        }
-
         [Fact]
-        public void Can_Get_ALL_Products_OnSale()
+        public void Correct_Parameters_Create_A_Sale_Item()
         {
-            Dictionary<int,ISale> products = _repository.GetSalePrices();
-            Assert.Equal(4, products.Count);
-
-            Assert.Equal(2141,products[2141].PLU);
-            Assert.Equal(2101,products[2101].PLU);
-            Assert.Equal(3291,products[3291].PLU);
-            Assert.Equal(4011,products[4011].PLU);
-            
-            Assert.Equal(0.99m, products[2141].Price, 2);
-            Assert.Equal(1.99m, products[2101].Price, 2);
-            Assert.Equal(2.24m, products[3291].Price, 2);
-            Assert.Equal(0.77m, products[4011].Price, 2);
+            ISale sale = new Sale(2,10m);
+            Assert.Equal(2, sale.PLU);
+            Assert.Equal(10m, sale.Price);
         }
-
-        [Fact]
-        public void Invalid_PLU_Throws_Exception()
-        {
-            _repository.SalePriceList =  "SalePriceList_InvalidPLU.txt";
-            FormatException formatExeption = Assert.Throws<FormatException>(()=>{ _repository.GetSalePrices(); });
-            Assert.Equal(typeof(FormatException), formatExeption.GetType());
-        }
-
-        [Fact]
-        public void Invalid_SalePrice_Throws_Exception()
-        {
-            _repository.SalePriceList =  "SalePriceList_InvalidPrice.txt";
-            FormatException formatExeption = Assert.Throws<FormatException>(()=>{ _repository.GetSalePrices(); });
-            Assert.Equal(typeof(FormatException), formatExeption.GetType());
-        }
-
-        [Fact]
-        public void Invalid_SalePriceList_File_With_More_Fields_Throws_Error()
-        {
-            _repository.SalePriceList =  "SalePriceList_InvalidFormat1.txt";
-            Exception formatExeption = Assert.Throws<Exception>(()=>{ _repository.GetSalePrices(); });
-            Assert.Equal(typeof(Exception), formatExeption.GetType());
-            Assert.Equal("Error: Invalid Sale List Format", formatExeption.Message);
-        }
-
-        [Fact]
-        public void Invalid_SalePriceList_File_With_Less_Fields_Throws_Error()
-        {
-            _repository.SalePriceList =  "SalePriceList_InvalidFormat2.txt";
-            Exception formatExeption = Assert.Throws<Exception>(()=>{ _repository.GetSalePrices(); });
-            Assert.Equal(typeof(Exception), formatExeption.GetType());
-            Assert.Equal("Error: Invalid Sale List Format", formatExeption.Message);
-        }                
-    
     }
 }

@@ -27,10 +27,15 @@ namespace StoreDomain.Test
             _cart.AddItem(cartItem5);
 
             Assert.Equal(3, _cart.CartItems.Count);
-            Assert.Equal(2, _cart.CartItems[2001].Count);
-            Assert.Equal(2, _cart.CartItems[3001].Count);
-            Assert.Equal(1, _cart.CartItems[4222].Count);
+            Assert.Equal(2, _cart.CartItems[2001]);
+            Assert.Equal(2, _cart.CartItems[3001]);
+            Assert.Equal(1, _cart.CartItems[4222]);
         }
 
+        [Fact]
+        public void Can_Scan_Cart_Items()
+        {
+            
+        }
     }
 }

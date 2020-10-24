@@ -5,7 +5,9 @@ namespace StoreDomain.Interfaces
 {
     public interface ICart 
     {
-        Dictionary<int,IList<ICartItem>> CartItems {get;}
+        Dictionary<int,int> CartItems {get;}
         void AddItem(ICartItem product);
+
+        void Checkout();
     }
 }
