@@ -46,6 +46,7 @@ namespace StoreDomain
                     receipt.IgnoredItems.Add(_cartItemDescription[cartItem.Key]);
                     continue;
                 }
+                
                 IProduct currentProduct = products[cartItem.Key];
 
                 decimal bestPrice = cartItem.Value * products[cartItem.Key].Price;
@@ -61,9 +62,12 @@ namespace StoreDomain
                     receiptLineItem.SetDiscountLine($"Sale @ ${salePrice.GetSalePrice(currentProduct.PLU)} ea ", bestPrice);
                 }
 
-                //price = promotionalPrice.Apply(cartItem, products[cartItem.Key].Price);
-
-
+                price = promotionalPrice.Apply(cartItem, products[cartItem.Key].Price);
+                if (price < bestPrice )
+                {
+                    bestPrice = price;
+                    receiptLineItem.SetDiscountLine($"Promotion ${promotionalPrice.GetAppliedPromotion(currentProduct.PLU)}", bestPrice);
+                }
 
                 receipt.GrandTotal += bestPrice;
             }

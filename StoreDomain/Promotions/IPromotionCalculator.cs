@@ -4,6 +4,7 @@ namespace StoreDomain.Promotions
 {
     public interface IPromotionCalculator
     {
-        decimal Calculate(IPromotion promotion, int itemCount, decimal originalPrice);
+        string GetAppliedPromotion();
+        decimal Calculate(int itemCount, decimal originalPrice);
     }
 }
