@@ -141,6 +141,7 @@ namespace Repository.Test
         #endregion **********
 
         #region ***** Promotions *****
+
         [Fact]
         public void Can_Get_ALL_Promotions()
         {
@@ -159,6 +160,56 @@ namespace Repository.Test
             Assert.Equal(0, promotions[3291].QuantityOffered);
             Assert.Equal(3.50m, promotions[3291].PromotionalPricing, 2);            
         }
+
+        [Fact]
+        public void Invalid_Or_Missing_Promotion_Code_Throws_Exception()
+        {
+            _repository.PromotionsList = "Promotions_invld_Promo_Code.txt";
+            Exception formatExeption = Assert.Throws<Exception>(()=>{ _repository.GetPromotions(); });
+        }
+
+        [Fact]
+        public void Invalid_PLU_In_Promotions_Throws_Exception()
+        {
+            _repository.PromotionsList = "Promotions_invalid_PLU.txt";
+            FormatException formatExeption = Assert.Throws<FormatException>(()=>{ _repository.GetPromotions(); });
+        }
+        
+        [Fact]
+        public void Invalid_Quantity_Bought_In_Promotions_Throws_Exception()
+        {
+            _repository.PromotionsList = "Promotions_invld_qty_bought.txt";
+            FormatException formatExeption = Assert.Throws<FormatException>(()=>{ _repository.GetPromotions(); });
+        }
+
+        [Fact]
+        public void Invalid_Quantity_Offered_In_Promotions_Throws_Exception()
+        {
+            _repository.PromotionsList = "Promotions_invld_qty_offered.txt";
+            FormatException formatExeption = Assert.Throws<FormatException>(()=>{ _repository.GetPromotions(); });
+        }
+
+        [Fact]
+        public void Invalid_Promotional_Pricing_In_Promotions_Throws_Exception()
+        {
+            _repository.PromotionsList = "Promotions_invld_promo_pricing.txt";
+            FormatException formatExeption = Assert.Throws<FormatException>(()=>{ _repository.GetPromotions(); });
+        }
+
+        [Fact]
+        public void Invalid_Promotional_File_With_More_Fields_Throws_Error()
+        {
+            _repository.PromotionsList = "Promotions_invld_more_fields.txt";
+            Exception formatExeption = Assert.Throws<Exception>(()=>{ _repository.GetPromotions(); });
+        }
+
+        [Fact]
+        public void Invalid_Promotional_File_With_Less_Fields_Throws_Error()
+        {
+            _repository.PromotionsList = "Promotions_invld_less_fields.txt";
+            Exception formatExeption = Assert.Throws<Exception>(()=>{ _repository.GetPromotions(); });
+        }        
+        
         #endregion **********
     }
 }
