@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Repository.Interfaces;
 using System.IO;
 using System;
-using System.Linq;
 
 namespace Repository
 {
@@ -12,6 +11,8 @@ namespace Repository
         public string SalePriceList {get;set;}
         public string PromotionsList {get;set;}
 
+        //TODO to catch any duplicates 
+        
         public Dictionary<int, ISale> GetSalePrices()
         {
             string[] prods = File.ReadAllLines(SalePriceList);

@@ -8,6 +8,6 @@ namespace StoreDomain.Interfaces
         Dictionary<int,int> CartItems {get;}
         void AddItem(ICartItem product);
 
-        void Checkout();
+        Receipt Checkout();
     }
 }

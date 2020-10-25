@@ -11,6 +11,15 @@ namespace StoreDomain
     {
         private IDictionary<int, ISale> _salePrices;
 
+        public decimal? GetSalePrice(int plu)
+        {
+            if (_salePrices.ContainsKey(plu))
+            {
+                return _salePrices[plu].Price;
+            }
+
+            return null;
+        }
         public decimal Apply(KeyValuePair<int, int> cartItem, decimal originalPrice)
         {
             decimal price = originalPrice;

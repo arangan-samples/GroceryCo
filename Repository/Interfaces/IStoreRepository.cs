@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Repository.Interfaces;
 
-namespace Repository
+namespace Repository.Interfaces
 {
     public interface IStoreRepository
     {

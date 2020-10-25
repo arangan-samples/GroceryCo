@@ -11,6 +11,8 @@ namespace StoreDomain
 
         public Dictionary<int, int> CartItems { get; }
 
+        private Dictionary<int, ICartItem> _cartItemDescription;
+
         public void AddItem(ICartItem cartItem)
         {
             if (CartItems.ContainsKey(cartItem.PLU))
@@ -21,43 +23,66 @@ namespace StoreDomain
             {
                 CartItems.Add(cartItem.PLU, 1);
             }
-        }
 
-        public decimal ApplySalePrice(KeyValuePair<int, int> item, IDictionary<int, IProduct> products, IDictionary<int, ISale> salePrices)
-        {
-            decimal price = products[item.Key].Price;
-            if (salePrices.ContainsKey(item.Key))
+            if (!_cartItemDescription.ContainsKey(cartItem.PLU))
             {
-                price = salePrices[item.Key].Price;
+                _cartItemDescription.Add(cartItem.PLU, cartItem);
             }
-
-            return item.Value * price;
         }
 
-        public void Checkout()
+        public Receipt Checkout()
         {
             IDictionary<int, IProduct> products = _storeRepository.GetProducts();
-            IDictionary<int, ISale> salePrices = _storeRepository.GetSalePrices();
+            ISalePrice salePrice = new SalePrice(_storeRepository);
+            IPromotionalPrice promotionalPrice = new PromotionalPrice(_storeRepository);
+
+            
+            Receipt receipt = new Receipt();
 
             foreach (KeyValuePair<int, int> cartItem in CartItems)
             {
-                decimal price = ApplySalePrice(cartItem, products, salePrices);
+                if (!products.ContainsKey(cartItem.Key))
+                {
+                    receipt.IgnoredItems.Add(_cartItemDescription[cartItem.Key]);
+                    continue;
+                }
+                IProduct currentProduct = products[cartItem.Key];
 
-                // foreach(Promotion p in Promotions)
-                // {
-                //     p.APply(PLU);
-                // }
-                // decimal price1 =  ApplyPromotion();
+                decimal bestPrice = cartItem.Value * products[cartItem.Key].Price;
+                ReceiptLineItem receiptLineItem = new ReceiptLineItem(currentProduct.PLU, currentProduct.Name, cartItem.Value, currentProduct.Price);
+                receipt.AddLineItem(receiptLineItem);
 
 
+                decimal price = salePrice.Apply(cartItem, products[cartItem.Key].Price);
+
+                if (price < bestPrice)
+                {
+                    bestPrice = price;
+                    receiptLineItem.SetDiscountLine($"Sale @ ${salePrice.GetSalePrice(currentProduct.PLU)} ea ", bestPrice);
+                }
+
+                //price = promotionalPrice.Apply(cartItem, products[cartItem.Key].Price);
+
+
+
+                receipt.GrandTotal += bestPrice;
             }
 
+            return receipt;
+        }
+
+        internal Cart(IStoreRepository storeRepository)
+        {
+            CartItems = new Dictionary<int, int>();
+            _storeRepository = storeRepository;
+            _cartItemDescription = new Dictionary<int, ICartItem>();
         }
 
         public Cart()
         {
             CartItems = new Dictionary<int, int>();
             _storeRepository = new StoreRepository();
+            _cartItemDescription = new Dictionary<int, ICartItem>();
         }
     }
 }

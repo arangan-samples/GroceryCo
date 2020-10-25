@@ -1,8 +1,6 @@
 using Xunit;
 using StoreDomain.Interfaces;
-using StoreDomain;
 using Repository;
-using System;
 using Moq;
 using Repository.Interfaces;
 using System.Collections.Generic;
@@ -18,7 +16,7 @@ namespace StoreDomain.Test
         public void Can_Apply_Discount()
         {
             _storeRepository = new Mock<IStoreRepository>();
-            Dictionary<int, ISale> discounts = new Dictionary<int, ISale>(3);
+            Dictionary<int, ISale> discounts = new Dictionary<int, ISale>(2);
             discounts.Add(2141, new Sale(2141, 0.99m));
             discounts.Add(4011, new Sale(4011, 0.99m));
             _storeRepository.Setup(foo => foo.GetSalePrices()).Returns(discounts);
