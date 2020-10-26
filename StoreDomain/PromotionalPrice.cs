@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Reflection;
+using log4net;
 using Repository.Interfaces;
 using StoreDomain.Interfaces;
 using StoreDomain.Promotions;
@@ -9,9 +11,12 @@ namespace StoreDomain
     {
         private IDictionary<int, IPromotion> _promotions;
         private IPromotionCalculator _currentPromotion;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public decimal Apply(KeyValuePair<int, int> cartItem, decimal originalPrice)
         {
+            log.Info("Checking Promotion");
+
             decimal price = cartItem.Value * originalPrice;
             if (null != _promotions && _promotions.ContainsKey(cartItem.Key))
             {

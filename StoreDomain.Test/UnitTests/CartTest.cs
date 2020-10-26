@@ -28,11 +28,11 @@ namespace StoreDomain.Test.UnitTests
         public void Can_Scan_Items_From_A_File()
         {
             ICart cart = new Cart();
-            cart.Scan("CartItems_Test");
+            cart.Scan("CartItems_Test.txt");
             Assert.Equal(3, cart.CartItems.Count);
             Assert.True(cart.CartItems.ContainsKey(2001));
             Assert.True(cart.CartItems.ContainsKey(3001));
-            Assert.True(cart.CartItems.ContainsKey(4222));
+            Assert.True(cart.CartItems.ContainsKey(4222)); 
         }
 
         [Fact]

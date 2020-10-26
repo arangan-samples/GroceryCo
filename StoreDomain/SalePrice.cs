@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using log4net;
 using Repository;
 using Repository.Interfaces;
 using StoreDomain.Interfaces;
@@ -10,6 +12,7 @@ namespace StoreDomain
     internal class SalePrice : ISalePrice
     {
         private IDictionary<int, ISale> _salePrices;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public decimal? GetSalePrice(int plu)
         {
@@ -22,9 +25,11 @@ namespace StoreDomain
         }
         public decimal Apply(KeyValuePair<int, int> cartItem, decimal originalPrice)
         {
+            log.Info("Checking Discount");
             decimal price = originalPrice;
             if (null != _salePrices && _salePrices.ContainsKey(cartItem.Key))
             {
+                log.Info("Applying Discount");
                 price = _salePrices[cartItem.Key].Price;
             }
 

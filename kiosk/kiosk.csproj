@@ -1,12 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-<ItemGroup>
-    <DataFiles Include="DataFiles/*.txt" />
+  <ItemGroup>
+    <Log4NetConfig Include="*.config" />
   </ItemGroup>
-  <Target Name="CopyDataFiles" BeforeTargets="BeforeBuild">
-    <Copy SourceFiles="@(DataFiles)" DestinationFolder="$(OutDir)" />
+  <Target Name="CopyConfigFiles" BeforeTargets="BeforeBuild">
+    <Copy SourceFiles="@(Log4NetConfig)" DestinationFolder="$(OutDir)" />
   </Target>
   <ItemGroup>
     <ProjectReference Include="..\StoreDomain\StoreDomain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.12" />
   </ItemGroup>
 
   <PropertyGroup>

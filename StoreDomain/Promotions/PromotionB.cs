@@ -1,3 +1,5 @@
+using System.Reflection;
+using log4net;
 using Repository.Interfaces;
 
 namespace StoreDomain.Promotions
@@ -5,10 +7,12 @@ namespace StoreDomain.Promotions
     /// GroupPromotionalPrice
     public class PromotionB : IPromotionCalculator
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private IPromotion _promotion;
 
         public decimal Calculate(int itemCount, decimal originalPrice)
         {
+            log.Info("Applying the promotion: GroupPromotionalPrice");
             decimal price = originalPrice;
             if (itemCount >= _promotion.QuantityBought)
             {

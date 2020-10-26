@@ -4,6 +4,8 @@ using Repository.Interfaces;
 using StoreDomain.Interfaces;
 using System.IO;
 using System;
+using log4net;
+using System.Reflection;
 
 namespace StoreDomain
 {
@@ -14,6 +16,7 @@ namespace StoreDomain
         public Dictionary<int, int> CartItems { get; }
 
         private Dictionary<int, ICartItem> _cartItemDescription;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public void AddItem(ICartItem cartItem)
         {
@@ -34,6 +37,7 @@ namespace StoreDomain
 
         public Receipt Checkout()
         {
+            log.Info("Checkout Started");
             IDictionary<int, IProduct> products = _storeRepository.GetProducts();
             ISalePrice salePrice = new SalePrice(_storeRepository);
             IPromotionalPrice promotionalPrice = new PromotionalPrice(_storeRepository);
@@ -43,8 +47,10 @@ namespace StoreDomain
 
             foreach (KeyValuePair<int, int> cartItem in CartItems)
             {
+                log.Info($"Processing product: #{_cartItemDescription[cartItem.Key].PLU}: {_cartItemDescription[cartItem.Key].Description}");
                 if (!products.ContainsKey(cartItem.Key))
                 {
+                    log.Warn($"Product not found: #{_cartItemDescription[cartItem.Key].PLU}: {_cartItemDescription[cartItem.Key].Description}");
                     receipt.IgnoredItems.Add(_cartItemDescription[cartItem.Key]);
                     continue;
                 }
@@ -73,6 +79,8 @@ namespace StoreDomain
 
                 receipt.GrandTotal += bestPrice;
             }
+
+            log.Info("Checkout Completed");
 
             return receipt;
         }
