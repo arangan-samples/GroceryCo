@@ -13,7 +13,7 @@ namespace StoreDomain
         public decimal Apply(KeyValuePair<int, int> cartItem, decimal originalPrice)
         {
             decimal price = cartItem.Value * originalPrice;
-            if (_promotions.ContainsKey(cartItem.Key))
+            if (null != _promotions && _promotions.ContainsKey(cartItem.Key))
             {
                 IPromotion promotion = _promotions[cartItem.Key];
 

@@ -23,7 +23,7 @@ namespace StoreDomain
         public decimal Apply(KeyValuePair<int, int> cartItem, decimal originalPrice)
         {
             decimal price = originalPrice;
-            if (_salePrices.ContainsKey(cartItem.Key))
+            if (null != _salePrices && _salePrices.ContainsKey(cartItem.Key))
             {
                 price = _salePrices[cartItem.Key].Price;
             }

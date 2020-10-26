@@ -21,7 +21,7 @@ namespace StoreDomain
                     return DiscountLine.DiscountedPrice;
                 }
                 
-                return ItemPrice;
+                return ItemPrice*Quantity;
             }
         }
 

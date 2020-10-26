@@ -16,12 +16,12 @@ namespace StoreDomain.Test
         public CartTest()
         {
             _storeRepository = new Mock<IStoreRepository>();
-            Dictionary<int,IProduct> products = new Dictionary<int, IProduct>(3);
-            products.Add(2141, new Product(2141,"Apple",3.12m));
-            products.Add(2101, new Product(2101,"Orange",2.49m));
-            products.Add(3291, new Product(3291,"Pineapple",4.5595m));
-            products.Add(4011, new Product(4011,"Banana",0.99m));
-            _storeRepository.Setup( fn => fn.GetProducts()).Returns(products);
+            Dictionary<int, IProduct> products = new Dictionary<int, IProduct>(3);
+            products.Add(2141, new Product(2141, "Apple", 3.12m));
+            products.Add(2101, new Product(2101, "Orange", 2.49m));
+            products.Add(3291, new Product(3291, "Pineapple", 4.5595m));
+            products.Add(4011, new Product(4011, "Banana", 0.99m));
+            _storeRepository.Setup(fn => fn.GetProducts()).Returns(products);
         }
 
         [Fact]
@@ -56,12 +56,9 @@ namespace StoreDomain.Test
             _storeRepository.Setup(foo => foo.GetSalePrices()).Returns(discounts);
 
             _cart = new Cart(_storeRepository.Object);
-            ICartItem cartItem1 = new CartItem(2141, "Apple");
-            ICartItem cartItem2 = new CartItem(3001, "Grapes");
-            ICartItem cartItem3 = new CartItem(4011, "Banana");
-            _cart.AddItem(cartItem1);
-            _cart.AddItem(cartItem2);
-            _cart.AddItem(cartItem3);
+            _cart.AddItem(new CartItem(2141, "Apple"));
+            _cart.AddItem(new CartItem(3001, "Grapes"));
+            _cart.AddItem(new CartItem(4011, "Banana"));
 
             Receipt receipt = _cart.Checkout();
             List<ReceiptLineItem> receiptLineItems = receipt.GetLineItems().ToList();
@@ -72,6 +69,51 @@ namespace StoreDomain.Test
             Assert.Equal(1.99m, receiptLineItems[0].FinalPrice);
             Assert.Equal(0.89m, receiptLineItems[1].FinalPrice);
             Assert.Equal(2.88m, receipt.GrandTotal);
+        }
+
+        [Fact]
+        public void Can_Checkout_And_Get_Best_Promotion()
+        {
+            Dictionary<int, IPromotion> promotions = new Dictionary<int, IPromotion>(2);
+            promotions.Add(2141, new Promotion("GroupPromotionalPrice", 2141, 4, 0, 2.12m));
+            promotions.Add(2101, new Promotion("AdditionalProductDiscount", 2101, 3, 1, 100));
+            _storeRepository.Setup(fn => fn.GetPromotions()).Returns(promotions);
+
+            _cart = new Cart(_storeRepository.Object);
+            _cart.AddItem(new CartItem(2141, "Apple"));
+            _cart.AddItem(new CartItem(2141, "Apple"));
+            _cart.AddItem(new CartItem(2141, "Apple"));
+            _cart.AddItem(new CartItem(2141, "Apple"));
+            _cart.AddItem(new CartItem(2141, "Apple"));
+
+            _cart.AddItem(new CartItem(2101, "Orange"));
+            _cart.AddItem(new CartItem(2101, "Orange"));
+            _cart.AddItem(new CartItem(2101, "Orange"));
+            _cart.AddItem(new CartItem(2101, "Orange"));
+            _cart.AddItem(new CartItem(2101, "Orange"));
+            _cart.AddItem(new CartItem(2101, "Orange"));
+
+            _cart.AddItem(new CartItem(3001, "Grapes"));
+
+            _cart.AddItem(new CartItem(4011, "Banana"));
+            _cart.AddItem(new CartItem(4011, "Banana"));
+
+            Receipt receipt = _cart.Checkout();
+            List<ReceiptLineItem> receiptLineItems = receipt.GetLineItems().ToList();
+
+            Assert.Equal(3, receiptLineItems.Count);
+            Assert.Equal(1, receipt.IgnoredItems.Count);
+
+            Assert.Equal(2141, receiptLineItems[0].PLU);
+            Assert.Equal(11.60m, receiptLineItems[0].FinalPrice);
+
+            Assert.Equal(2101, receiptLineItems[1].PLU);
+            Assert.Equal(12.45m, receiptLineItems[1].FinalPrice);
+
+            Assert.Equal(4011, receiptLineItems[2].PLU);
+            Assert.Equal(1.98m, receiptLineItems[2].FinalPrice);
+
+            Assert.Equal(26.03m, receipt.GrandTotal);
         }
     }
 }
