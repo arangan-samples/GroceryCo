@@ -8,23 +8,21 @@ namespace StoreDomain
     public class PromotionalPrice : IPromotionalPrice
     {
         private IDictionary<int, IPromotion> _promotions;
-        private IPromotionCalculator _currentPromotion = null;
+        private IPromotionCalculator _currentPromotion;
 
         public decimal Apply(KeyValuePair<int, int> cartItem, decimal originalPrice)
         {
-            decimal price = originalPrice;
+            decimal price = cartItem.Value * originalPrice;
             if (_promotions.ContainsKey(cartItem.Key))
             {
                 IPromotion promotion = _promotions[cartItem.Key];
 
                 switch (promotion.PromotionCode)
                 {
-                    // case OfferedPromotions.AdditionalProductDiscount:
                     case var pcode when string.Equals(pcode, OfferedPromotions.AdditionalProductDiscount, System.StringComparison.OrdinalIgnoreCase):
                         _currentPromotion = new PromotionA(promotion);
                         break;
 
-                    // case OfferedPromotions.ReducedPrice.ToString():
                     case var pcode when string.Equals(pcode, OfferedPromotions.GroupPromotionalPrice, System.StringComparison.OrdinalIgnoreCase):
                         _currentPromotion = new PromotionB(promotion);
                         break;
@@ -38,7 +36,7 @@ namespace StoreDomain
                 }
             }
 
-            return cartItem.Value * price;
+            return price;
         }
 
         public string GetAppliedPromotion(int plu)

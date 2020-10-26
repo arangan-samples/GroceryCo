@@ -1,9 +1,6 @@
 using Xunit;
-using StoreDomain.Interfaces;
 using Repository;
-using Moq;
 using Repository.Interfaces;
-using System.Collections.Generic;
 using StoreDomain.Promotions;
 
 namespace StoreDomain.Test
