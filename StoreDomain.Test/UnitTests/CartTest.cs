@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Repository.Interfaces;
 using System.Linq;
 
-namespace StoreDomain.Test
+namespace StoreDomain.Test.UnitTests
 {
     public class CartTest
     {
@@ -22,6 +22,17 @@ namespace StoreDomain.Test
             products.Add(3291, new Product(3291, "Pineapple", 4.5595m));
             products.Add(4011, new Product(4011, "Banana", 0.99m));
             _storeRepository.Setup(fn => fn.GetProducts()).Returns(products);
+        }
+
+        [Fact]
+        public void Can_Scan_Items_From_A_File()
+        {
+            ICart cart = new Cart();
+            cart.Scan("CartItems_Test");
+            Assert.Equal(3, cart.CartItems.Count);
+            Assert.True(cart.CartItems.ContainsKey(2001));
+            Assert.True(cart.CartItems.ContainsKey(3001));
+            Assert.True(cart.CartItems.ContainsKey(4222));
         }
 
         [Fact]

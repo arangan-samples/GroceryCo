@@ -6,7 +6,7 @@ using Repository.Interfaces;
 using StoreDomain.Interfaces;
 using Xunit;
 
-namespace StoreDomain.Test
+namespace StoreDomain.Test.UnitTests
 {
     public class DataContext : IDisposable
     {

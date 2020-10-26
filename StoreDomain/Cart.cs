@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Repository;
 using Repository.Interfaces;
 using StoreDomain.Interfaces;
+using System.IO;
+using System;
 
 namespace StoreDomain
 {
@@ -73,6 +75,21 @@ namespace StoreDomain
             }
 
             return receipt;
+        }
+
+        public void Scan(string fileName)
+        {
+            string[] scannedItems = File.ReadAllLines(fileName);
+            foreach (string item in scannedItems)
+            {
+                string[] record = item.Split('|');
+                if (record.Length == 2)
+                {
+                    int plu = Convert.ToInt32(record[0]);
+                    string desc = record[1];
+                    AddItem(new CartItem(plu,desc));
+                }
+            }
         }
 
         internal Cart(IStoreRepository storeRepository)

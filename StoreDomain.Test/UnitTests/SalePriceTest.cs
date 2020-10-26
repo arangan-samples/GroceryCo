@@ -5,7 +5,7 @@ using Moq;
 using Repository.Interfaces;
 using System.Collections.Generic;
 
-namespace StoreDomain.Test
+namespace StoreDomain.Test.UnitTests
 {
     public class SalePriceTest
     {

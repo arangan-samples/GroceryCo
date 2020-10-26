@@ -3,7 +3,7 @@ using Repository;
 using Repository.Interfaces;
 using StoreDomain.Promotions;
 
-namespace StoreDomain.Test
+namespace StoreDomain.Test.UnitTests
 {
     public class PromotionCalculatorTest
     {
