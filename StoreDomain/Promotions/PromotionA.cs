@@ -3,6 +3,7 @@ using Repository.Interfaces;
 
 namespace StoreDomain.Promotions
 {
+    /// AdditionalProductDiscount
     public class PromotionA : IPromotionCalculator
     {
         private IPromotion _promotion;

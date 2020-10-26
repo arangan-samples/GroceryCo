@@ -2,6 +2,7 @@ using Repository.Interfaces;
 
 namespace StoreDomain.Promotions
 {
+    /// GroupPromotionalPrice
     public class PromotionB : IPromotionCalculator
     {
         private IPromotion _promotion;
