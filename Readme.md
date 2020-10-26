@@ -3,6 +3,18 @@
 A sample implementation of a Kiosk to check out a basket full of items and apply discounts and promotions to get the best available deal.  
 The application is developed using .NET core 3.1
 
+## Quickstart
+
+```bash
+$ dotnet run CartItems.txt
+```
+
+Log can be found in  
+
+```bash
+/GroceryCo/kiosk/bin/Debug/netcoreapp3.1/kiosk.log
+```
+
 ## Notes
 
 The Application takes in a text file, with each item purchased in a single line. Every item, has a PLU and a description separated by a pipe.  
