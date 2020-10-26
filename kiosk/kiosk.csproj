@@ -1,4 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
+<ItemGroup>
+    <DataFiles Include="DataFiles/*.txt" />
+  </ItemGroup>
+  <Target Name="CopyDataFiles" BeforeTargets="BeforeBuild">
+    <Copy SourceFiles="@(DataFiles)" DestinationFolder="$(OutDir)" />
+  </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\StoreDomain\StoreDomain.csproj" />
+  </ItemGroup>
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>

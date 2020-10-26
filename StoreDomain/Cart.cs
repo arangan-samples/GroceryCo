@@ -61,14 +61,14 @@ namespace StoreDomain
                 if (price < bestPrice)
                 {
                     bestPrice = price;
-                    receiptLineItem.SetDiscountLine($"Sale @ ${salePrice.GetSalePrice(currentProduct.PLU)} ea ", bestPrice);
+                    receiptLineItem.SetDiscountLine($"Sale @ {salePrice.GetSalePrice(currentProduct.PLU)} ea ", bestPrice);
                 }
 
                 price = promotionalPrice.Apply(cartItem, products[cartItem.Key].Price);
                 if (price < bestPrice )
                 {
                     bestPrice = price;
-                    receiptLineItem.SetDiscountLine($"Promotion ${promotionalPrice.GetAppliedPromotion(currentProduct.PLU)}", bestPrice);
+                    receiptLineItem.SetDiscountLine($"Promotion {promotionalPrice.GetAppliedPromotion(currentProduct.PLU)}", bestPrice);
                 }
 
                 receipt.GrandTotal += bestPrice;

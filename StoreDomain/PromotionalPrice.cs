@@ -41,7 +41,7 @@ namespace StoreDomain
 
         public string GetAppliedPromotion(int plu)
         {
-            if (_currentPromotion == null)
+            if (null != _currentPromotion)
             {
                 return _currentPromotion.GetAppliedPromotion();
             }

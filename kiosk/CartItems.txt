@@ -1,0 +1,14 @@
+2141|Apple
+2101|Orange
+2141|Apple
+2141|Apple
+2101|Orange
+3291|Pineapple
+2101|Orange
+4011|Banana
+2101|Orange
+4011|Banana
+3291|Pineapple
+4011|Banana
+4011|Banana
+5001|Grapes

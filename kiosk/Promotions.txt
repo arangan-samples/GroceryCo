@@ -1,0 +1,4 @@
+GroupPromotionalPrice | 2141 | 4 | 0 | 1.75
+AdditionalProductDiscount | 2101| 3 | 1 | 100
+AdditionalProductDiscount | 3291| 2 | 1 | 50
+GroupPromotionalPrice | 4011 | 4 | 0 | 0.75
